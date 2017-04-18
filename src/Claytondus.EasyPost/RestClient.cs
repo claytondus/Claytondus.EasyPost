@@ -29,7 +29,6 @@ namespace Claytondus.EasyPost
 
 	    protected async Task<T> GetAsync<T>(string resource, object queryParams = null) where T : class
 	    {
-            Log.Trace("GET " + resource);
 		    try
 		    {
 			    var response = await new Url(EasyPostUrl)
@@ -71,16 +70,30 @@ namespace Claytondus.EasyPost
 
 		protected async Task<T> PostAsync<T>(string resource, object body)
 	    {
-            Log.Trace("POST " + resource);
             try
 			{
-				var request =  new Url(EasyPostUrl)
+				var response = await new Url(EasyPostUrl)
                     .AppendPathSegment(resource)
 					.WithDefaults()
-			        .WithOAuthBearerToken(_authToken);
-			    return await request.PostUrlEncodedAsync(body)
-					.ReceiveJson<T>();
-			}
+			        .WithOAuthBearerToken(_authToken)
+			        .PostJsonAsync(body);
+                Log.Trace(response.RequestMessage.ToString());
+                //Log.Trace("Request: " + await response.RequestMessage.Content.ReadAsStringAsync());
+                var responseBody = await response.Content.ReadAsStringAsync();
+                Log.Trace("Response: " + responseBody);
+                var settings = new JsonSerializerSettings
+                {
+                    Error = (sender, args) =>
+                    {
+                        if (System.Diagnostics.Debugger.IsAttached)
+                        {
+                            System.Diagnostics.Debugger.Break();
+                        }
+                    }
+                };
+                var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, settings);
+                return responseDeserialized;
+            }
 			catch (FlurlHttpTimeoutException)
 			{
 				throw new EasyPostException("timeout", "Request timed out.");
@@ -109,7 +122,7 @@ namespace Claytondus.EasyPost
 		            .AppendPathSegment(resource)
 		            .WithDefaults()
 		            .WithOAuthBearerToken(_authToken)
-		            .PutUrlEncodedAsync(body)
+		            .PutJsonAsync(body)
 		            .ReceiveJson<T>();
 		        return response;
 		    }
