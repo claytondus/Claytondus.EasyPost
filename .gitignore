@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/test/Claytondus.EasyPost.Tests/appsettings.json
+test/Claytondus.EasyPost.Tests/appsettings.json
