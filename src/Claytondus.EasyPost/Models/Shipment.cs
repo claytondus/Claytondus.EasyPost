@@ -70,6 +70,11 @@ namespace Claytondus.EasyPost.Models {
         }
     }
 
+    public class CreateShipmentRequest
+    {
+        public Shipment shipment { get; set; }
+    }
+
     public class BuyShipmentRequest
     {
         public Rate rate { get; set; }

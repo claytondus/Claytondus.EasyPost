@@ -36,10 +36,10 @@ namespace Claytondus.EasyPost
             return await GetAsync<Parcel>(resource);
         }
 
-        public async Task<Shipment> CreateShipmentAsync(Shipment shipment)
+        public async Task<Shipment> CreateShipmentAsync(CreateShipmentRequest request)
         {
             const string resource = "/shipments";
-            return await PostAsync<Shipment>(resource, shipment);
+            return await PostAsync<Shipment>(resource, request);
         }
 
         public async Task<ShipmentList> RetrieveShipmentListAsync(RetrieveShipmentList request)
@@ -62,8 +62,8 @@ namespace Claytondus.EasyPost
 
         public async Task<Shipment> GetShipmentLabelAsync(string id, string fileFormat)
         {
-            var resource = $"/shipments/{id}/label?file_format={fileFormat}";
-            return await GetAsync<Shipment>(resource);
+            var resource = $"/shipments/{id}/label";
+            return await GetAsync<Shipment>(resource, new {file_format = fileFormat});
         }
 
         public async Task<Shipment> RegenerateShipmentRatesAsync(string id)

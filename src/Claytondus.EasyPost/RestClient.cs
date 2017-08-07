@@ -9,23 +9,36 @@ using Claytondus.EasyPost.Models;
 using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
+using NullValueHandling = Newtonsoft.Json.NullValueHandling;
 
 namespace Claytondus.EasyPost
 {
     public class RestClient
     {
-	    protected readonly string EasyPostUrl = "https://api.easypost.com/v2";
+        private readonly string EasyPostUrl = "https://api.easypost.com/v2";
 	    private readonly string _authToken;
         private static readonly ILog Log = LogProvider.For<RestClient>();
 
-        public RestClient()
-		{
-		}
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            Error = (sender, args) =>
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
+            }
+        };
 
 		public RestClient(string authToken)
 		{
 			_authToken = authToken;
-		}
+		    FlurlHttp.Configure(c => {
+		        c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
+		    });
+        }
+
 
 	    protected async Task<T> GetAsync<T>(string resource, object queryParams = null) where T : class
 	    {
@@ -39,17 +52,7 @@ namespace Claytondus.EasyPost
 					.GetAsync();
                 Log.Trace(response.RequestMessage.ToString);
 			    var responseBody = await response.Content.ReadAsStringAsync();
-				var settings = new JsonSerializerSettings
-				{
-					Error = (sender, args) =>
-					{
-						if (System.Diagnostics.Debugger.IsAttached)
-						{
-							System.Diagnostics.Debugger.Break();
-						}
-					}
-				};
-			    var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, settings);
+			    var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, jsonSettings);
 			    return responseDeserialized;
 		    }
 			catch (FlurlHttpTimeoutException)
@@ -81,17 +84,7 @@ namespace Claytondus.EasyPost
                 //Log.Trace("Request: " + await response.RequestMessage.Content.ReadAsStringAsync());
                 var responseBody = await response.Content.ReadAsStringAsync();
                 Log.Trace("Response: " + responseBody);
-                var settings = new JsonSerializerSettings
-                {
-                    Error = (sender, args) =>
-                    {
-                        if (System.Diagnostics.Debugger.IsAttached)
-                        {
-                            System.Diagnostics.Debugger.Break();
-                        }
-                    }
-                };
-                var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, settings);
+                var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, jsonSettings);
                 return responseDeserialized;
             }
 			catch (FlurlHttpTimeoutException)

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using Flurl.Http.Content;
+using Newtonsoft.Json;
+using NullValueHandling = Newtonsoft.Json.NullValueHandling;
 
 namespace Claytondus.EasyPost
 {
@@ -73,6 +75,16 @@ namespace Claytondus.EasyPost
         public static Task<HttpResponseMessage> PutUrlEncodedAsync(this Url url, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
         {
             return new FlurlClient(url, false).PutUrlEncodedAsync(data, cancellationToken, completionOption);
+        }
+
+        public static async Task<HttpResponseMessage> PostNullOmittedJsonAsync(this IFlurlClient fc, object body)
+        {
+            var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            return await fc.HttpClient.PostAsync(fc.Url, content);
         }
     }
 }
