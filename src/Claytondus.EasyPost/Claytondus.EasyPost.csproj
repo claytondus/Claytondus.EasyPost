@@ -4,7 +4,7 @@
     <TargetFrameworks>net45;netstandard1.4</TargetFrameworks>
     <AssemblyName>Claytondus.EasyPost</AssemblyName>
     <PackageId>Claytondus.EasyPost</PackageId>
-    <Version>0.1.3</Version>
+    <Version>0.1.5</Version>
     <Author>Copyright 2017 Clayton Davis and EasyPost</Author>
     <Description>A modern, portable .NET client for EasyPost</Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,6 +13,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+    <PackageReleaseNotes>Add tracker create and retrieve</PackageReleaseNotes>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">

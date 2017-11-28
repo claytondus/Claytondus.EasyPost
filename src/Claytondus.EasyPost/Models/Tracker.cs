@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Claytondus.EasyPost.Models {
-    public class Tracker  {
+namespace Claytondus.EasyPost.Models
+{
+    public class Tracker
+    {
         public string id { get; set; }
         public DateTime? created_at { get; set; }
         public DateTime tracking_updated_at { get; set; }
@@ -18,5 +20,5 @@ namespace Claytondus.EasyPost.Models {
         public string public_url { get; set; }
         public List<TrackingDetail> tracking_details { get; set; }
         public CarrierDetail carrier_detail { get; set; }
-        }
+    }
 }

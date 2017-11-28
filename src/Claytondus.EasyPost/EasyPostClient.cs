@@ -84,5 +84,17 @@ namespace Claytondus.EasyPost
             return await PostAsync<Shipment>(resource, null);
         }
 
+	    public async Task<Tracker> CreateTrackerAsync(Tracker tracker)
+	    {
+	        var resource = $"/trackers";
+	        return await PostAsync<Tracker>(resource, tracker);
+	    }
+
+	    public async Task<Tracker> RetrieveTrackerAsync(string id)
+	    {
+	        var resource = $"/trackers/{id}";
+	        return await GetAsync<Tracker>(resource);
+	    }
+
     }
 }
