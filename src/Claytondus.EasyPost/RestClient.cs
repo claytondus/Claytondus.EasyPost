@@ -200,7 +200,7 @@ namespace Claytondus.EasyPost
 
 	public static class UrlExtension
 	{
-		public static IFlurlClient WithDefaults(this Url url)
+		public static IFlurlRequest WithDefaults(this Url url)
 		{
 			return url
 				.WithTimeout(10)

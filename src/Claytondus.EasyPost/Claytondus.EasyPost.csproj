@@ -4,7 +4,7 @@
     <TargetFrameworks>net45;netstandard1.4</TargetFrameworks>
     <AssemblyName>Claytondus.EasyPost</AssemblyName>
     <PackageId>Claytondus.EasyPost</PackageId>
-    <Version>0.1.5</Version>
+    <Version>0.2.0</Version>
     <Author>Copyright 2017 Clayton Davis and EasyPost</Author>
     <Description>A modern, portable .NET client for EasyPost</Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -22,8 +22,8 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl" Version="2.4.0" />
-    <PackageReference Include="Flurl.Http" Version="1.2.0" />
+    <PackageReference Include="Flurl" Version="2.7.0" />
+    <PackageReference Include="Flurl.Http" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
