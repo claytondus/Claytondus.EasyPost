@@ -61,7 +61,7 @@ namespace Claytondus.EasyPost
 			}
 			catch (FlurlHttpException ex)
 			{
-			    var response = ex.Call.ErrorResponseBody;
+			    var response = await ex.GetResponseStringAsync();
 			    throw new EasyPostException("error", response)
 			    {
 			        Method = "GET",
@@ -93,7 +93,7 @@ namespace Claytondus.EasyPost
 			}
 			catch (FlurlHttpException ex)
 			{
-                var response = ex.Call.ErrorResponseBody;
+                var response = await ex.GetResponseStringAsync();
 			    throw new EasyPostException("error", response)
 			    {
 			        Method = "POST",
@@ -125,7 +125,7 @@ namespace Claytondus.EasyPost
 		    }
 		    catch (FlurlHttpException ex)
 		    {
-		        var response = ex.Call.ErrorResponseBody;
+		        var response = await ex.GetResponseStringAsync();
 		        throw new EasyPostException("error", response)
 		        {
 		            Method = "PUT",
@@ -155,7 +155,7 @@ namespace Claytondus.EasyPost
             }
             catch (FlurlHttpException ex)
             {
-                var response = ex.Call.ErrorResponseBody;
+                var response = await ex.GetResponseStringAsync();
                 throw new EasyPostException("error", response)
                 {
                     Method = "DELETE",
@@ -186,7 +186,7 @@ namespace Claytondus.EasyPost
 			}
 			catch (FlurlHttpException ex)
 			{
-                var response = ex.Call.ErrorResponseBody;
+                var response = await ex.GetResponseStringAsync();
 			    throw new EasyPostException("error", response)
 			    {
 			        Method = "DELETE",
