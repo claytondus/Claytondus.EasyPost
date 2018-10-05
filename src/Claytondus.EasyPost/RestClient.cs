@@ -31,13 +31,14 @@ namespace Claytondus.EasyPost
             }
         };
 
-		public RestClient(string authToken)
-		{
-			_authToken = authToken;
+	    public RestClient(string authToken, TimeSpan? timeout = null)
+	    {
+		    _authToken = authToken;
 		    FlurlHttp.Configure(c => {
-		        c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
+			    c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
+			    c.Timeout = timeout;
 		    });
-        }
+	    }
 
 
 	    protected async Task<T> GetAsync<T>(string resource, object queryParams = null) where T : class
