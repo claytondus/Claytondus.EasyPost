@@ -8,7 +8,7 @@ namespace Claytondus.EasyPost
 
 	public class EasyPostClient : RestClient
 	{
-		public EasyPostClient(string authToken) : base(authToken)
+		public EasyPostClient(string authToken, TimeSpan? timeout = null) : base(authToken, timeout)
 		{
 		}
 

@@ -31,13 +31,14 @@ namespace Claytondus.EasyPost
             }
         };
 
-		public RestClient(string authToken)
-		{
-			_authToken = authToken;
+	    public RestClient(string authToken, TimeSpan? timeout = null)
+	    {
+		    _authToken = authToken;
 		    FlurlHttp.Configure(c => {
-		        c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
+			    c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
+			    c.Timeout = timeout ?? TimeSpan.FromSeconds(10);
 		    });
-        }
+	    }
 
 
 	    protected async Task<T> GetAsync<T>(string resource, object queryParams = null) where T : class
@@ -203,7 +204,6 @@ namespace Claytondus.EasyPost
 		public static IFlurlRequest WithDefaults(this Url url)
 		{
 			return url
-				.WithTimeout(10)
 				.WithHeader("Accept", "application/json");
 		}
 	}
