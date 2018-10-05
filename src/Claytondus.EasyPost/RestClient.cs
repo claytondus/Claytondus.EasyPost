@@ -36,7 +36,7 @@ namespace Claytondus.EasyPost
 		    _authToken = authToken;
 		    FlurlHttp.Configure(c => {
 			    c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
-			    c.Timeout = timeout;
+			    c.Timeout = timeout ?? TimeSpan.FromSeconds(10);
 		    });
 	    }
 
@@ -204,7 +204,6 @@ namespace Claytondus.EasyPost
 		public static IFlurlRequest WithDefaults(this Url url)
 		{
 			return url
-				.WithTimeout(10)
 				.WithHeader("Accept", "application/json");
 		}
 	}
