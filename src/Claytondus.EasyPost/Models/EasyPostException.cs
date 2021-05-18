@@ -14,14 +14,14 @@ namespace Claytondus.EasyPost.Models
 		}
 
 		public string EasyPostType { get; set; }
-        public string RequestBody { get; set; }
+        public string? RequestBody { get; set; }
         public string ResponseBody { get; set; }
 
 		public HttpStatusCode? HttpStatus { get; set; }
 
-        public string Method { get; set; }
-        public string Resource { get; set; }
-        public string HttpMessage { get; set; }
+        public string? Method { get; set; }
+        public string? Resource { get; set; }
+        public string? HttpMessage { get; set; }
 
 
 	}

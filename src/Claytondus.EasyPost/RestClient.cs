@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Claytondus.EasyPost.Logging;
 using Claytondus.EasyPost.Models;
 using Flurl;
 using Flurl.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NullValueHandling = Newtonsoft.Json.NullValueHandling;
 
@@ -15,11 +11,11 @@ namespace Claytondus.EasyPost
 {
     public class RestClient
     {
-        private readonly string EasyPostUrl = "https://api.easypost.com/v2";
+        private readonly Url EasyPostUrl = "https://api.easypost.com/v2";
 	    private readonly string _authToken;
-        private static readonly ILog Log = LogProvider.For<RestClient>();
+	    private readonly ILogger? _logger;
 
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings jsonSettings = new()
         {
             NullValueHandling = NullValueHandling.Ignore,
             Error = (sender, args) =>
@@ -31,9 +27,10 @@ namespace Claytondus.EasyPost
             }
         };
 
-	    public RestClient(string authToken, TimeSpan? timeout = null)
+	    public RestClient(string authToken, TimeSpan? timeout = null, ILogger? logger = null)
 	    {
 		    _authToken = authToken;
+		    _logger = logger;
 		    FlurlHttp.Configure(c => {
 			    c.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(jsonSettings);
 			    c.Timeout = timeout ?? TimeSpan.FromSeconds(10);
@@ -41,7 +38,7 @@ namespace Claytondus.EasyPost
 	    }
 
 
-	    protected async Task<T> GetAsync<T>(string resource, object queryParams = null) where T : class
+	    protected async Task<T> GetAsync<T>(string resource, object? queryParams = null) where T : class
 	    {
 		    try
 		    {
@@ -51,8 +48,8 @@ namespace Claytondus.EasyPost
 				    .WithDefaults()
 				    .WithOAuthBearerToken(_authToken)
 					.GetAsync();
-                Log.Trace(response.RequestMessage.ToString);
-			    var responseBody = await response.Content.ReadAsStringAsync();
+                _logger?.LogTrace(response.ResponseMessage.RequestMessage.ToString());
+			    var responseBody = await response.GetStringAsync();
 			    var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, jsonSettings);
 			    return responseDeserialized;
 		    }
@@ -67,12 +64,12 @@ namespace Claytondus.EasyPost
 			    {
 			        Method = "GET",
 			        Resource = resource,
-			        HttpStatus = ex.Call.HttpStatus
+			        HttpStatus = ex.Call.HttpResponseMessage.StatusCode
 			    };
 			}
 		}
 
-		protected async Task<T> PostAsync<T>(string resource, object body)
+		protected async Task<T> PostAsync<T>(string resource, object? body)
 	    {
             try
 			{
@@ -81,10 +78,9 @@ namespace Claytondus.EasyPost
 					.WithDefaults()
 			        .WithOAuthBearerToken(_authToken)
 			        .PostJsonAsync(body);
-                Log.Trace(response.RequestMessage.ToString());
-                //Log.Trace("Request: " + await response.RequestMessage.Content.ReadAsStringAsync());
-                var responseBody = await response.Content.ReadAsStringAsync();
-                Log.Trace("Response: " + responseBody);
+                _logger?.LogTrace("{0}",response.ResponseMessage.RequestMessage.ToString());
+                var responseBody = await response.GetStringAsync();
+                _logger?.LogTrace("Response: {0}", responseBody);
                 var responseDeserialized = JsonConvert.DeserializeObject<T>(responseBody, jsonSettings);
                 return responseDeserialized;
             }
@@ -99,17 +95,17 @@ namespace Claytondus.EasyPost
 			    {
 			        Method = "POST",
 			        Resource = resource,
-			        HttpStatus = ex.Call.HttpStatus,
+			        HttpStatus = ex.Call.HttpResponseMessage.StatusCode,
 			        HttpMessage = ex.Message,
 			        RequestBody = ex.Call.RequestBody
 			    };
 			}
-			
+
 	    }
 
-		protected async Task<T> PutAsync<T>(string resource, object body = null)
+		protected async Task<T> PutAsync<T>(string resource, object? body = null)
 		{
-            Log.Trace("PUT " + resource);
+            _logger?.LogTrace("PUT {0}", resource);
 		    try
 		    {
 		        var response = await new Url(EasyPostUrl)
@@ -131,16 +127,16 @@ namespace Claytondus.EasyPost
 		        {
 		            Method = "PUT",
 		            Resource = resource,
-		            HttpStatus = ex.Call.HttpStatus,
+		            HttpStatus = ex.Call.HttpResponseMessage.StatusCode,
 		            HttpMessage = ex.Message,
 		            RequestBody = ex.Call.RequestBody
 		        };
 		    }
 		}
 
-        protected async Task DeleteAsync(string resource, object queryParams = null)
+        protected async Task DeleteAsync(string resource, object? queryParams = null)
         {
-            Log.Trace("DELETE " + resource);
+            _logger?.LogTrace("DELETE {0}", resource);
             try
             {
                 await new Url(EasyPostUrl)
@@ -161,15 +157,15 @@ namespace Claytondus.EasyPost
                 {
                     Method = "DELETE",
                     Resource = resource,
-                    HttpStatus = ex.Call.HttpStatus,
+                    HttpStatus = ex.Call.HttpResponseMessage.StatusCode,
                     HttpMessage = ex.Message
                 };
             }
         }
 
-        protected async Task<T> DeleteAsync<T>(string resource, object queryParams = null)
+        protected async Task<T> DeleteAsync<T>(string resource, object? queryParams = null)
 		{
-            Log.Trace("DELETE " + resource);
+            _logger?.LogTrace("DELETE {0}", resource);
             try
             {
                 var response = await new Url(EasyPostUrl)
@@ -192,7 +188,7 @@ namespace Claytondus.EasyPost
 			    {
 			        Method = "DELETE",
 			        Resource = resource,
-			        HttpStatus = ex.Call.HttpStatus,
+			        HttpStatus = ex.Call.HttpResponseMessage.StatusCode,
 			        HttpMessage = ex.Message
 			    };
 			}

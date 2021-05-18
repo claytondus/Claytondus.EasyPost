@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.4</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <AssemblyName>Claytondus.EasyPost</AssemblyName>
     <PackageId>Claytondus.EasyPost</PackageId>
-    <Version>0.3.0</Version>
-    <Author>Copyright 2017 Clayton Davis and EasyPost</Author>
+    <Version>1.0.0</Version>
+    <Author>Copyright 2021 Clayton Davis and EasyPost</Author>
     <Description>A modern, portable .NET client for EasyPost</Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -13,20 +13,18 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <PackageReleaseNotes>Add tracker create and retrieve</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-		<DefineConstants>$(DefineConstants);LIBLOG_PORTABLE</DefineConstants>
-	</PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Flurl" Version="2.7.1" />
-    <PackageReference Include="Flurl.Http" Version="2.3.2" />
+    <PackageReference Include="Flurl.Http" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.15" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />

@@ -8,14 +8,14 @@ namespace Claytondus.EasyPost.Models
 {
     public class Error
     {
-        public string code { get; set; }
-        public string message { get; set; }
-        public List<FieldError> errors { get; set; }
+        public string? code { get; set; }
+        public string? message { get; set; }
+        public List<FieldError>? errors { get; set; }
     }
 
     public class FieldError
     {
-        public string field { get; set; }
-        public string message { get; set; }
+        public string? field { get; set; }
+        public string? message { get; set; }
     }
 }

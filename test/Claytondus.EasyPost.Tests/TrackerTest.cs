@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Claytondus.EasyPost.Models;
 using Claytondus.PrintNode.Test;
 using Xunit;
@@ -17,7 +14,7 @@ namespace Claytondus.EasyPost.Tests
 
             var tracker = await client.CreateTrackerAsync(new Tracker
             {
-                tracking_code = "1Z9336190371284586",
+                tracking_code = "EZ1000000001",
                 carrier = "UPS"
             });
             Assert.NotNull(tracker);

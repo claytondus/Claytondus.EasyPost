@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Claytondus.EasyPost.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Claytondus.EasyPost
 {
 
 	public class EasyPostClient : RestClient
 	{
-		public EasyPostClient(string authToken, TimeSpan? timeout = null) : base(authToken, timeout)
+		public EasyPostClient(string authToken, TimeSpan? timeout = null, ILogger? logger = null)
+			: base(authToken, timeout, logger)
 		{
 		}
 
