@@ -23,5 +23,6 @@ namespace Claytondus.EasyPost.Models
         public string? shipment_id { get; set; }
         public string? carrier_account_id { get; set; }
 
+        public TimeInTransit? time_in_transit { get; set; }
     }
 }

@@ -55,6 +55,12 @@ namespace Claytondus.EasyPost
             return await GetAsync<Shipment>(resource);
         }
 
+        public async Task<SmartRateResult> RetrieveShipmentSmartRateAsync(string id)
+        {
+	        var resource = $"/shipments/{id}/smartrate";
+	        return await GetAsync<SmartRateResult>(resource);
+        }
+
 	    public async Task<Shipment> BuyShipmentAsync(string id, BuyShipmentRequest request)
 	    {
             var resource = $"/shipments/{id}/buy";

@@ -37,7 +37,7 @@ EasyPost is a multi-carrier shipping services API.  We use it at [Agonswim.com](
 
 ## Usage
 
-1. Get an account and API Key at [https://EasyPost.com](https://https://app.EasyPost.com/app/login/register)
+1. Get an account and API key at [https://easypost.com](https://https://app.EasyPost.com/app/login/register)
 2. Clone the repo
    ```sh
    dotnet add package Claytondus.EasyPost
@@ -49,15 +49,31 @@ EasyPost is a multi-carrier shipping services API.  We use it at [Agonswim.com](
    ```
    You may also pass in an ILogger to log requests and responses:
    ```C#
-   var client = new EasyPostClient(apiKey, logger);
+   var client = new EasyPostClient(apiKey, logger:logger);
    ```
 4. Call the API
    ```C#
-   var response = await client.GetPrintJobsAsync();
+   var response = await client.await client.CreateTrackerAsync(new Tracker
+   {
+       tracking_code = "EZ1000000001",
+       carrier = "UPS"
+   });
    ```
 
 ### API Support
-* 
+* Addresses
+* Parcels
+* Shipments
+   * Options
+   * Rates
+   * Refunds
+   * SmartRate
+* Trackers
+* CustomsInfos, CustomsItems
+* Events
+* Fees
+* Orders
+* Webhooks
 
 Additional APIs are supported upon request.
 
