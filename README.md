@@ -38,7 +38,7 @@ EasyPost is a multi-carrier shipping services API.  We use it at [Agonswim.com](
 ## Usage
 
 1. Get an account and API key at [https://easypost.com](https://https://app.EasyPost.com/app/login/register)
-2. Clone the repo
+2. Add the NuGet package to your project
    ```sh
    dotnet add package Claytondus.EasyPost
    ```
