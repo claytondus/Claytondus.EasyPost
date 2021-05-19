@@ -4,7 +4,7 @@
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <AssemblyName>Claytondus.EasyPost</AssemblyName>
     <PackageId>Claytondus.EasyPost</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.3.0</Version>
     <Author>Copyright 2021 Clayton Davis and EasyPost</Author>
     <Description>A modern, portable .NET client for EasyPost</Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

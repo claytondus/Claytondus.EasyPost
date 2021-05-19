@@ -30,6 +30,7 @@ namespace Claytondus.EasyPost.Models
         public string? delivery_confirmation { get; set; }
         public string? delivery_time_preference { get; set; }
         public string? duty_payment_account { get; set; }
+        public DutyPayment? duty_payment { get; set; }
         public bool? dry_ice { get; set; }
         public string? dry_ice_medical { get; set; }
         public string? dry_ice_weight { get; set; }
