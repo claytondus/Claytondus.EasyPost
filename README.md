@@ -66,6 +66,7 @@ EasyPost is a multi-carrier shipping services API.  We use it at [Agonswim.com](
 * Shipments
    * Options
    * Rates
+   * Insurance
    * Refunds
    * SmartRate
 * Trackers

@@ -91,6 +91,24 @@ namespace Claytondus.EasyPost
             return await PostAsync<Shipment>(resource, null);
         }
 
+        public async Task<Order> CreateOrderAsync(CreateOrderRequest request)
+        {
+	        var resource = $"/orders";
+	        return await PostAsync<Order>(resource, request);
+        }
+
+        public async Task<Order> RetrieveOrderAsync(string id)
+        {
+	        var resource = $"/orders/{id}";
+	        return await GetAsync<Order>(resource);
+        }
+
+        public async Task<Order> BuyOrderAsync(string id, BuyOrderRequest request)
+        {
+	        var resource = $"/orders/{id}/buy";
+	        return await PostAsync<Order>(resource, request);
+        }
+
 	    public async Task<Tracker> CreateTrackerAsync(Tracker tracker)
 	    {
 	        var resource = $"/trackers";

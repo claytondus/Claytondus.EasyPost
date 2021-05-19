@@ -10,7 +10,7 @@ namespace Claytondus.EasyPost.Models
         public DateTime? updated_at { get; set; }
         public string? contents_type { get; set; }
         public string? contents_explanation { get; set; }
-        public string? customs_certify { get; set; }
+        public bool customs_certify { get; set; }
         public string? customs_signer { get; set; }
         public string? eel_pfc { get; set; }
         public string? non_delivery_option { get; set; }
