@@ -18,5 +18,6 @@ namespace Claytondus.EasyPost.Models
         public string? restriction_comments { get; set; }
         public List<CustomsItem>? customs_items { get; set; }
         public string? mode { get; set; }
+        public string? declaration { get; set; }
     }
 }

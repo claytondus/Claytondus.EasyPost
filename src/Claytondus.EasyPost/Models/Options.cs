@@ -48,7 +48,7 @@ namespace Claytondus.EasyPost.Models
         public string? machinable { get; set; }
         public bool? neutral_delivery { get; set; }
         public bool? non_contract { get; set; }
-        public DutyPayment? payment { get; set; }
+        public Payment? payment { get; set; }
         public string? po_sort { get; set; }
         public string? print_custom_1 { get; set; }
         public string? print_custom_2 { get; set; }
